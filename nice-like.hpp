@@ -25,8 +25,8 @@ class nice: public Backend
     public:
         nice()
         {
-            bind(".File.Quit", this->quit, "Close program");
-            bind(".File.Help", this->help, "Show functions descriptions");
+            bind(".File.Quit", [&](){this->quit();}, "Close program");
+            bind(".File.Help", [&](){this->help();}, "Show functions descriptions");
         }
         ~nice()
         {
