@@ -1,5 +1,5 @@
-#ifndef Nice-like_hpp
-#define Nice-like_hpp
+#ifndef Nice_like_hpp
+#define Nice_like_hpp
 
 #include <ncurses.h>
 #include <vector>
@@ -23,14 +23,9 @@ class nice: public Backend
         virtual void quit();
         virtual void help();
     public:
-        nice()
-        {
-            bind(".File.Quit", this->quit, "Close program");
-            bind(".File.Help", this->help, "Show functions descriptions");
-        }
+        nice();
         ~nice()
         {
-            delete tool;
             endwin();
         }
         Tool* tool;
