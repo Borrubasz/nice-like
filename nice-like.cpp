@@ -106,7 +106,7 @@ void nice::bind(std::string str, std::function<void()> func, std::string help)
     
     if(menu.size() == 0)
     {
-        BindingString bsbuf = {str.substr(dot+1, str.size()), help, bfunc};
+        vector<BindingString> bsbuf = {{str.substr(dot+1, str.size()), help, bfunc}};
         vector<BindingString> bsvbuf = {{buf}};
         menu.emplace(menu.end(), bsvbuf);
         menu.emplace(menu.end(), bsbuf);
@@ -246,4 +246,10 @@ void nice::help()
     mvwprintw(tmp, LINES-1, 0, "Press any key to leave.");
     getch();
     return;
+}
+
+int main()
+{
+    nice backenddzik;
+    return 0;
 }

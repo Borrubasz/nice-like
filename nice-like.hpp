@@ -7,7 +7,7 @@
 #include "shared.hpp"
 
 #define KEY_ESC 27
-#define KEY_ENTER '\n'
+#define KEY_ENT '\n'
 
 using namespace std;
 
