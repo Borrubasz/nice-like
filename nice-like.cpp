@@ -125,7 +125,7 @@ void nice::bind(std::string str, std::function<void()> func, std::string help)
     {
         int epos = str.find("|");
         bfunc = [&](){tool->setEntry(str.substr(epos+1, str.size()-1), this->draw_box(str.substr(dpos+2, epos-1))); func();};
-        str.erase(str.begin()+dpos, str.end()-1);
+        str.erase(str.begin()+dpos, str.end());
     }
     else bfunc = func;
     dot = str.find('.');
@@ -133,7 +133,7 @@ void nice::bind(std::string str, std::function<void()> func, std::string help)
     
     if(menu.size() == 0)
     {
-        vector<BindingString> bsbuf = {{str.substr(dot+1, str.size()), help, bfunc}};
+        vector<BindingString> bsbuf = {{str.substr(dot+1, str.size()-1), help, bfunc}};
         vector<BindingString> bsvbuf = {{buf}};
         menu.emplace(menu.end(), bsvbuf);
         menu.emplace(menu.end(), bsbuf);
@@ -143,14 +143,14 @@ void nice::bind(std::string str, std::function<void()> func, std::string help)
     {
         if(buf.compare(menu[0][i].name) == 0)
         {
-            BindingString bsbuf = {str.substr(dot+1, str.size()), help, bfunc};
+            BindingString bsbuf = {str.substr(dot+1, str.size()-1), help, bfunc};
             menu[i+1].emplace(menu[i+1].end(), bsbuf);
         }
         else if(buf.compare(menu[0][i].name) != 0 && i == menu[0].size() - 1)
         {
             BindingString bsbuf = {buf};
             menu[0].emplace(menu[0].end(), bsbuf);
-            vector<BindingString> bsvbuf = {{str.substr(dot+1, str.size()), help, bfunc}};
+            vector<BindingString> bsvbuf = {{str.substr(dot+1, str.size()-1), help, bfunc}};
             menu.emplace(menu.end(), bsvbuf);
             break;
         }
@@ -258,7 +258,7 @@ string nice::draw_box(string str)
     mvwaddstr(tmp, 2, 1, "Entry:");
     wrefresh(tmp);
     echo();
-    getstr(t);
+    mvwscanw(tmp, 2, 7, t);
     noecho();
     str[33] = '\0';
     ret = t;
