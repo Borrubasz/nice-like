@@ -24,11 +24,6 @@ class nice: public Backend
         virtual void help();
     public:
         nice();
-        ~nice()
-        {
-            endwin();
-        }
-        Tool* tool;
         virtual void bind(std::string str, std::function<void()> func, std::string help);
         virtual void start();
 };

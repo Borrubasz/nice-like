@@ -146,7 +146,7 @@ void nice::main_menu_controler()
             if(h > 0) h--;
             else h = menu[0].size()-1;
             break;
-        case KEY_ENTER:
+        case KEY_ENT:
             draw_submenu(0, h+1);
             refresh();
             submenu_controler(h+1);
@@ -177,12 +177,14 @@ void nice::submenu_controler(int n)
             if(h > 0) h--;
             else h = menu[n].size()-1;
             break;
-        case KEY_ENTER:
-            menu[n][h].func();
-            refresh();
-            return;
+        case KEY_ENT:
+                menu[n][h].func();
+                tool->redraw();
+                refresh();
+                return;
         case KEY_ESC:
             draw_main_menu(-1);
+            tool->redraw();
             refresh();
             return;
         }
@@ -195,7 +197,8 @@ void nice::quit()
 {
     if(tool->getEntry("IS_SAVED") == "TRUE")
     {
-        delete this;
+            endwin();
+            exit(0);
     }
     else
     {
@@ -208,9 +211,8 @@ void nice::quit()
         wclear(tmp);
         delwin(tmp);
         return;
+        }
 
-    }
-    
 }
 string nice::draw_box(string str)
 {
@@ -227,23 +229,30 @@ string nice::draw_box(string str)
     noecho();
     str[x-6] = '\0';
     ret = t;
+    wclear(tmp);
+    delwin(tmp);
+    tool->redraw();
     return ret;
 
 }
 
 void nice::help()
 {
-    WINDOW *tmp = newwin(1, 0, LINES, COLS);
+    WINDOW *tmp = newwin(LINES, COLS, 0, 0);
     int y = 0;
-    for(int i = 1; i < menu.size()-1; i++)
+    for(int i = 1; i < menu.size(); i++)
     {
         for(int j = 0; j < menu[i].size(); j++)
         {
             mvwprintw(tmp, y++, 0, "%s: ", menu[i][j].name.c_str());
-            wprintw(tmp, menu[i][j].help.c_str());
+            wprintw(tmp, "%s", menu[i][j].help.c_str());
         }
     }
-    mvwprintw(tmp, LINES-1, 0, "Press any key to leave.");
+    mvwaddstr(tmp, LINES-1, 0, "Press any key to leave.");
+    wrefresh(tmp);
     getch();
+    wclear(tmp);
+    delwin(tmp);
+    tool->redraw();
     return;
 }
