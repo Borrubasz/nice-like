@@ -247,9 +247,3 @@ void nice::help()
     getch();
     return;
 }
-
-int main()
-{
-    nice backenddzik;
-    return 0;
-}
