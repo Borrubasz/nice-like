@@ -1,6 +1,8 @@
 #ifndef Shared_hpp
 #define Shared_hpp
 
+#include <string>
+#include <vector>
 #include <functional>
 
 struct BindingString {

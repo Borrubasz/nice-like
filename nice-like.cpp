@@ -45,13 +45,21 @@ void nice::draw_submenu(int h, int n)
     refresh();
 }
 
-void nice::start()
-{
+nice::nice() {
+    initscr();
     raw();
     keypad(stdscr, TRUE);
     noecho();
+    bind(".File.Quit", [this]() { quit(); }, "Close program");
+    bind(".File.Help", [this]() { help(); }, "Show functions descriptions");
+}
+
+void nice::start()
+{
+    
     draw_main_menu(-1);
     refresh();
+    
     while(1)
     {
         char c = getch();
