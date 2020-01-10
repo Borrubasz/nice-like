@@ -50,6 +50,18 @@ nice::nice() {
     raw();
     keypad(stdscr, TRUE);
     noecho();
+    special_keys[KEY_ENTER] = "<ENTER>";
+    special_keys[KEY_BACKSPACE] = "<BS>";
+    special_keys[KEY_DC] = "<DEL>";
+    special_keys[KEY_UP] = "<UARROW>";
+    special_keys[KEY_RIGHT] = "<RARROW>";
+    special_keys[KEY_DOWN] = "<DARROW>";
+    special_keys[KEY_LEFT] = "<LARROW>";
+    for(int i = 1; i <= 12; i++)
+    {
+        string tmp = "<F" + to_string(i) + ">";
+        special_keys[KEY_F(i)] = tmp;
+    }
     bind(".File.Quit", [this]() { quit(); }, "Close program");
     bind(".File.Help", [this]() { help(); }, "Show functions descriptions");
 }
@@ -62,7 +74,7 @@ void nice::start()
     
     while(1)
     {
-        char c = getch();
+        int c = getch();
         switch(c)
         {
             case KEY_ESC:
@@ -71,13 +83,28 @@ void nice::start()
                 main_menu_controler();
                 break;
             default:
-                tool->setEntry("KEY", &c);
+                if(special_keys.find(c) == special_keys.end())
+                {
+                    char p = c;
+                    tool->setEntry("KEY", &p);
+                }
+                else
+                {
+                    tool->setEntry("KEY", special_keys[c]);
+                }
+                edit_bind.func();
         }
     }
 }
 
 void nice::bind(std::string str, std::function<void()> func, std::string help)
 {
+    if(str == "<EDITION>")
+    {
+        edit_bind.name = str;
+        edit_bind.func = func;
+        edit_bind.help = help;
+    }
     string buf = "";
     int dot;
     function<void()> bfunc;
@@ -98,7 +125,7 @@ void nice::bind(std::string str, std::function<void()> func, std::string help)
     {
         int epos = str.find("|");
         bfunc = [&](){tool->setEntry(str.substr(epos+1, str.size()-1), this->draw_box(str.substr(dpos+2, epos-1))); func();};
-        str.erase(str.begin()+dpos, str.end());
+        str.erase(str.begin()+dpos, str.end()-1);
     }
     else bfunc = func;
     dot = str.find('.');
@@ -203,11 +230,16 @@ void nice::quit()
     else
     {
         WINDOW *tmp;
-        tmp = newwin(3, 47, LINES/2 - 1, COLS/2 - 23);
+        tmp = newwin(3, 84, LINES/2 - 1, COLS/2 - 42);
         box(tmp, 0 ,0);
-        mvwaddstr(tmp, 1, 1, "File is not saved. Press any key to continue.");
+        mvwaddstr(tmp, 1, 1, "File is not saved. Press any key to continue. Press ENTER if you still want to quit.");
         wrefresh(tmp);
-        getch();
+        char a = getch();
+        if(a == KEY_ENT)
+        {
+            endwin();
+            exit(0);            
+        }
         wclear(tmp);
         delwin(tmp);
         return;
@@ -219,15 +251,16 @@ string nice::draw_box(string str)
     WINDOW *tmp;
     string ret;
     int x = str.size();
-    char t[x-6];
-    tmp = newwin(4, x+2, LINES/2 - 2, COLS/2 - x/2);
+    char t[33];
+    if(x < 32) tmp = newwin(4, 35, LINES/2 - 2, COLS/2 - x/2);
+    else tmp = newwin(4, x+2, LINES/2 - 2, COLS/2 - x/2);
     mvwaddstr(tmp, 1, 1, str.c_str());
     mvwaddstr(tmp, 2, 1, "Entry:");
     wrefresh(tmp);
     echo();
     getstr(t);
     noecho();
-    str[x-6] = '\0';
+    str[33] = '\0';
     ret = t;
     wclear(tmp);
     delwin(tmp);

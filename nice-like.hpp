@@ -4,6 +4,7 @@
 #include <ncurses.h>
 #include <vector>
 #include <string>
+#include <map>
 #include "shared.hpp"
 
 #define KEY_ESC 27
@@ -14,6 +15,8 @@ using namespace std;
 class nice: public Backend
 {
     private:
+        map<int, string> special_keys;
+        BindingString edit_bind;
         vector<vector<BindingString>> menu;
         virtual void draw_main_menu(int h);
         virtual void draw_submenu(int h, int n);
