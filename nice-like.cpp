@@ -121,7 +121,8 @@ void nice::bind(std::string str, std::function<void()> func, std::string help)
     }
     if(str[0] != '.') return;
     str.erase(str.begin());
-    if(int dpos = str.find("${") != string::npos)
+    int dpos = str.find("${");
+    if(dpos != string::npos)
     {
         int epos = str.find("|");
         bfunc = [&](){tool->setEntry(str.substr(epos+1, str.size()-1), this->draw_box(str.substr(dpos+2, epos-1))); func();};
@@ -133,7 +134,7 @@ void nice::bind(std::string str, std::function<void()> func, std::string help)
     
     if(menu.size() == 0)
     {
-        vector<BindingString> bsbuf = {{str.substr(dot+1, str.size()-1), help, bfunc}};
+        vector<BindingString> bsbuf = {{str.substr(dot+1, str.size()), help, bfunc}};
         vector<BindingString> bsvbuf = {{buf}};
         menu.emplace(menu.end(), bsvbuf);
         menu.emplace(menu.end(), bsbuf);
@@ -150,7 +151,7 @@ void nice::bind(std::string str, std::function<void()> func, std::string help)
         {
             BindingString bsbuf = {buf};
             menu[0].emplace(menu[0].end(), bsbuf);
-            vector<BindingString> bsvbuf = {{str.substr(dot+1, str.size()-1), help, bfunc}};
+            vector<BindingString> bsvbuf = {{str.substr(dot+1, str.size()), help, bfunc}};
             menu.emplace(menu.end(), bsvbuf);
             break;
         }
