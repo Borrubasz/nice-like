@@ -257,11 +257,11 @@ string nice::draw_box(string str)
     else tmp = newwin(4, x+2, LINES/2 - 2, COLS/2 - x/2);
     mvwaddstr(tmp, 1, 1, str.c_str());
     mvwaddstr(tmp, 2, 1, "Entry:");
+    box(tmp, 0, 0);
     wrefresh(tmp);
     echo();
-    mvwscanw(tmp, 2, 7, t);
+    mvwgetstr(tmp, 2, 7, t);
     noecho();
-    str[33] = '\0';
     ret = t;
     wclear(tmp);
     delwin(tmp);
