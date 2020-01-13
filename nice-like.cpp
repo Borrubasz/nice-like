@@ -126,7 +126,7 @@ void nice::bind(std::string str, std::function<void()> func, std::string help)
     if(dpos != string::npos)
     {
         int epos = str.find("|");
-        bfunc = [&, dpos, epos, str, func](){tool->setEntry(str.substr(epos+1, str.size()-epos-1), this->draw_box(str.substr(dpos+2, epos-dpos-2))); func();};
+        bfunc = [&, dpos, epos, str, func](){tool->setEntry(str.substr(epos+1, str.size()-epos-2), this->draw_box(str.substr(dpos+2, epos-dpos-2))); func();};
         str.erase(str.begin()+dpos, str.end());
     }
     else bfunc = func;
