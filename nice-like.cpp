@@ -70,6 +70,7 @@ void nice::start()
 {
     
     draw_main_menu(-1);
+    tool->redraw();
     refresh();
     
     while(1)
@@ -147,6 +148,7 @@ void nice::bind(std::string str, std::function<void()> func, std::string help)
         {
             BindingString bsbuf = {str.substr(dot+1, str.size()-1), help, bfunc};
             menu[i+1].emplace(menu[i+1].end(), bsbuf);
+            break;
         }
         else if(buf.compare(menu[0][i].name) != 0 && i == menu[0].size() - 1)
         {
