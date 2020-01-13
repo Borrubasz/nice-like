@@ -64,6 +64,7 @@ nice::nice() {
     }
     bind(".File.Quit", [this]() { quit(); }, "Close program");
     bind(".File.Help", [this]() { help(); }, "Show functions descriptions");
+    edit_bind = {NULL, NULL, NULL};
 }
 
 void nice::start()
@@ -92,6 +93,7 @@ void nice::start()
                 {
                     tool->setEntry("KEY", special_keys[c]);
                 }
+                if(edit_bind.func != NULL)
                 edit_bind.func();
         }
     }
@@ -125,7 +127,7 @@ void nice::bind(std::string str, std::function<void()> func, std::string help)
     if(dpos != string::npos)
     {
         int epos = str.find("|");
-        bfunc = [&](){tool->setEntry(str.substr(epos+1, str.size()-1), this->draw_box(str.substr(dpos+2, epos-1))); func();};
+        bfunc = [&, dpos, epos, str, func](){tool->setEntry(str.substr(epos+1, str.size()-1), this->draw_box(str.substr(dpos+2, epos-1))); func();};
         str.erase(str.begin()+dpos, str.end());
     }
     else bfunc = func;
