@@ -64,7 +64,6 @@ nice::nice() {
     }
     bind(".File.Quit", [this]() { quit(); }, "Close program");
     bind(".File.Help", [this]() { help(); }, "Show functions descriptions");
-    edit_bind = {NULL, NULL, NULL};
 }
 
 void nice::start()
