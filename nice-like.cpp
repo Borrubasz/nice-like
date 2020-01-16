@@ -2,6 +2,11 @@
 
 void nice::draw_main_menu(int h)
 {
+
+    move(LINES, 0);
+    clrtoeol();
+    move(0, 0);
+    clrtoeol();
     int x = 0;
     for(int i = 0; i < menu[0].size(); i++)
     {
@@ -50,6 +55,7 @@ nice::nice() {
     raw();
     keypad(stdscr, TRUE);
     noecho();
+    curs_set(0);
     special_keys[KEY_ENTER] = "<ENTER>";
     special_keys[KEY_BACKSPACE] = "<BS>";
     special_keys[KEY_DC] = "<DEL>";
@@ -211,6 +217,7 @@ void nice::submenu_controler(int n)
         case KEY_ENT:
                 menu[n][h].func();
                 tool->redraw();
+                draw_main_menu(-1);
                 refresh();
                 return;
         case KEY_ESC:
@@ -226,7 +233,7 @@ void nice::submenu_controler(int n)
 
 void nice::quit()
 {
-    if(tool->getEntry("IS_SAVED") == "TRUE")
+    if(tool->getEntry("IS_SAVED") == "YES")
     {
             endwin();
             exit(0);
@@ -290,6 +297,5 @@ void nice::help()
     getch();
     wclear(tmp);
     delwin(tmp);
-    tool->redraw();
     return;
 }
