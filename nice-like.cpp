@@ -76,8 +76,8 @@ void nice::start()
 {
     
     draw_main_menu(-1);
-    tool->redraw();
     refresh();
+    tool->redraw();
     
     while(1)
     {
@@ -92,8 +92,8 @@ void nice::start()
             default:
                 if(special_keys.find(c) == special_keys.end())
                 {
-                    char p = c;
-                    tool->setEntry("KEY", &p);
+                    string p(1, c);
+                    tool->setEntry("KEY", p);
                 }
                 else
                 {
@@ -296,6 +296,7 @@ void nice::help()
     wrefresh(tmp);
     getch();
     wclear(tmp);
+    wrefresh(tmp);
     delwin(tmp);
     return;
 }
