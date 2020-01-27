@@ -11,7 +11,7 @@ b->tool = t \\ t - wskaźnik na używanego toola
 ### Start
 Metoda uruchamiająca główną pętlę programu.
 Wywołanie poprzez ``` nice-backend->start(); ```
-## Bindowanie
+### Bindowanie
 Bindowanie pozwala na dołączenie do menu własnych elementów wykonujących zdefiniowane przez siebie funkcje.
 Wzór funkcji:
 ```
