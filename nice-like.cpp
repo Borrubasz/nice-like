@@ -241,9 +241,10 @@ void nice::quit()
     else
     {
         WINDOW *tmp;
-        tmp = newwin(3, 84, LINES/2 - 1, COLS/2 - 42);
+        tmp = newwin(4, 47, LINES/2 - 2, COLS/2 - 23);
         box(tmp, 0 ,0);
-        mvwaddstr(tmp, 1, 1, "File is not saved. Press any key to continue. Press ENTER if you still want to quit.");
+        mvwaddstr(tmp, 1, 1, "File is not saved. Press any key to continue.");
+        mvwaddstr(tmp, 2, 1, "Press ENTER if you still want to quit.");
         wrefresh(tmp);
         char a = getch();
         if(a == KEY_ENT)
@@ -261,10 +262,10 @@ string nice::draw_box(string str)
 {
     WINDOW *tmp;
     string ret;
-    int x = str.size();
+    int s = str.size();
     char t[33];
-    if(x < 32) tmp = newwin(4, 35, LINES/2 - 2, COLS/2 - x/2);
-    else tmp = newwin(4, x+2, LINES/2 - 2, COLS/2 - x/2);
+    if(s < 32) tmp = newwin(4, 35, LINES/2 - 2, COLS/2 - 17);
+    else tmp = newwin(4, s+2, LINES/2 - 2, COLS/2 - s/2);
     mvwaddstr(tmp, 1, 1, str.c_str());
     mvwaddstr(tmp, 2, 1, "Entry:");
     box(tmp, 0, 0);
