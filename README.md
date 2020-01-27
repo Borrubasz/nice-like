@@ -48,4 +48,4 @@ Pozwala na zmianę działania zbindowanej funkcji w trakcie działania programu 
 ```
 virtual void re_bind(std::string str, std::function<void()> func);
 ```
-*** Funkcja nietestowana, może wywoławać błędy! ***
+***Funkcja nietestowana, może wywoławać błędy!***
