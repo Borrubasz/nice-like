@@ -167,6 +167,42 @@ void nice::bind(std::string str, std::function<void()> func, std::string help)
     }   
 }
 
+void nice::re_bind(std::string str, std::function<void()> func)
+{
+    string buf = "";
+    int dot;
+    function<void()> bfunc;
+    if(str[0] == '#')
+    {
+        str.erase(str.begin(), str.begin()+6);
+    }
+    str.erase(str.begin());
+    int dpos = str.find("${");
+    if(dpos != string::npos)
+    {
+        int epos = str.find("|");
+        bfunc = [&, dpos, epos, str, func](){tool->setEntry(str.substr(epos+1, str.size()-epos-2), this->draw_box(str.substr(dpos+2, epos-dpos-2))); func();};
+        str.erase(str.begin()+dpos, str.end());
+    }
+    else bfunc = func;
+    dot = str.find('.');
+    buf = str.substr(0, dot);
+    str.erase(0, dot+1);
+    for(int i = 0; i < menu[0].size(); i++)
+    {
+        if(buf.compare(menu[0][i].name) == 0)
+        {
+            for(int j = 0; j < menu[i+1].size(); j++)
+            {
+                if(str.compare(menu[i+1][j].name) == 0)
+                {
+                    menu[i+1][j].func = bfunc;
+                }
+            }
+        }
+    }
+}
+
 void nice::main_menu_controler()
 {
     int c, h = 0;

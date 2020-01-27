@@ -17,7 +17,7 @@ Wzór funkcji:
 ```
 virtual void bind(std::string str, std::function<void()> func, std::string help);
 ```
-Jest kilka możliwości wykorzystania tej funkcji, które są dokładniej opisane wraz z poniższymi przykładami:
+Jest kilka możliwości wykorzystania tej funkcji, które są dokładniej opisane wraz z poniższymi przykładami.
 Dwie podstawowe funkcje automatycznie dodawane do menu wraz z użyciem konstruktora.
 ```
 bind(".File.Quit", [this]() { quit(); }, "Close program");
@@ -42,3 +42,10 @@ W ramach obsługi specjalnego binda ```bind("<EDITION>", [&](){fun_edit();}, "")
 - Del ```<DEL>```
 - strzałki ```<[U|D|L|R]ARROW>```
 - F1-12 ```<F[1-12]>```
+
+### Rebindowanie
+Pozwala na zmianę działania zbindowanej funkcji w trakcie działania programu poprzez wywołanie funkcji o wzorze:
+```
+virtual void re_bind(std::string str, std::function<void()> func);
+```
+*** Funkcja nietestowana, może wywoławać błędy! ***
