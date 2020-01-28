@@ -46,6 +46,6 @@ W ramach obsługi specjalnego binda ```bind("<EDITION>", [&](){fun_edit();}, "")
 ### Rebindowanie
 Pozwala na zmianę działania zbindowanej funkcji w trakcie działania programu poprzez wywołanie funkcji o wzorze:
 ```
-virtual void re_bind(std::string str, std::function<void()> func);
+virtual void re_bind(std::string old_bind, std::string new_bind, std::function<void()> func);
 ```
 ***Funkcja nietestowana, może wywoławać błędy!***
